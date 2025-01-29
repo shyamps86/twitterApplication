@@ -1,0 +1,5 @@
+types of middleware in mongoose also called as pre and post hooks functions
+ 
+  query document model aggregate
+
+  
