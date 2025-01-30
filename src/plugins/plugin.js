@@ -3,7 +3,7 @@ export const applyPlugin=function(schema,options){
    schema.add({
     phn:{
         type:String,
-        required:true,
+        // required:true,
     }
    })
 

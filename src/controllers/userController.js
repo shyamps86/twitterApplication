@@ -73,7 +73,7 @@ export const userLogin=asyncHandler(async(req,res)=>{
     }
 
 
-    const {refreshToken,accessToken}=generateTokens(isExistedUser._id);
+    const {refreshToken,accessToken}=await generateTokens(isExistedUser._id);
 
     const options={
         httpOnly:true,
@@ -86,7 +86,7 @@ export const userLogin=asyncHandler(async(req,res)=>{
     .status(200)
     .cookie("accessToken",accessToken)
     .cookie("refreshToken",refreshToken)
-    .json(new ApiResponse(200,{user:accessToken,refreshToken,isExistedUser},"User logged in successfully"))
+    .json(new ApiResponse(200,{user:isExistedUser,refreshToken,accessToken},"User logged in successfully"))
 
 })
 
