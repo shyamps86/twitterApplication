@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
+import { applyPlugin } from "../plugins/plugin.js";
 const userModelSchema=new Schema({
     userName:{
         type:String,
@@ -25,6 +26,9 @@ const userModelSchema=new Schema({
     timestamps:true
 })
 
+userModelSchema.plugin(applyPlugin,{name:"pspk"}) 
+//parameters to applyPlugin function are the other parameter {name:pspk}
+
 
 userModelSchema.pre("save",async function(next){
     if(!this.isModified("password")){
@@ -32,9 +36,11 @@ userModelSchema.pre("save",async function(next){
     }
     const hashedPassword=await bcrypt.hash(this.password,10);
     this.password=hashedPassword
-    console.log(hashedPassword);
+    // console.log(hashedPassword);
     next();
 })
+
+
 
 userModelSchema.methods.isPasswordCorrect=async function(password){
     return await bcrypt.compare(password,this.password)

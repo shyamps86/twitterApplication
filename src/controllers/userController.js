@@ -11,7 +11,7 @@ export const Register=asyncHandler(async(req,res)=>{
     //check user is existed or not
     
     //send response as user created
-    const {fullName,password,email,userName}=req.body;
+    const {fullName,password,email,userName,phn}=req.body;
 
     if([fullName,userName,email,password].some((value)=>value.trim()==="")){
         throw new ApiError(400,"all fields are mandatory");
@@ -29,7 +29,8 @@ export const Register=asyncHandler(async(req,res)=>{
         userName,
         password,
         email,
-        fullName
+        fullName,
+        phn
     })
     
     const createdUser=await User.findOne({email}).select("-password -refreshToken")
@@ -86,12 +87,6 @@ export const userLogin=asyncHandler(async(req,res)=>{
     .cookie("accessToken",accessToken)
     .cookie("refreshToken",refreshToken)
     .json(new ApiResponse(200,{user:accessToken,refreshToken,isExistedUser},"User logged in successfully"))
-     
-
-    
-
-
-
 
 })
 
