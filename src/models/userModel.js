@@ -24,6 +24,13 @@ const userModelSchema=new Schema({
     },
     refreshToken:{
         type:String,
+    },
+    profileImage:{
+        type:String,  //cloudinary Url
+        required:true,
+    },
+    avatar:{
+        type:String,
     }
 },{
     timestamps:true
