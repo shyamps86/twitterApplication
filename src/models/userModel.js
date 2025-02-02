@@ -31,7 +31,7 @@ const userModelSchema=new Schema({
     },
     avatar:{
         type:String,
-    }
+    },
 },{
     timestamps:true
 })
