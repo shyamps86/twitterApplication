@@ -1,0 +1,37 @@
+next("route")--->skip middleware handler is used to skip the current route handler and pass
+  to other same METHOD(get,post,put,delete) route.
+
+  ex:
+
+            const express = require('express');
+            const app = express();
+
+            // Middleware to check if user is authenticated
+            function checkAuth(req, res, next) {
+            if (req.isAuthenticated()) {
+                return next('route'); // Skip to current handler and goes to next route handler
+            }
+            next(); // Continue to the next middleware
+            }
+
+            // Middleware to log request details
+            function logRequest(req, res, next) {
+            console.log('Request received:', req.method, req.url);
+            next();
+            }
+
+            ``// Route handlers
+            app.get('/profile', checkAuth, logRequest, (req, res) => {
+            res.send('User is not authenticated, logging request.');
+            });
+
+            app.get('/profile', (req, res) => {
+            res.send('User is authenticated, skipping logging.');
+            });
+
+            app.listen(3000, () => {
+            console.log('Server is running on port 3000');
+            });
+
+    
+    
