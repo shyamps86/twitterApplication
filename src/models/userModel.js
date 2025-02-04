@@ -24,7 +24,14 @@ const userModelSchema=new Schema({
     },
     refreshToken:{
         type:String,
-    }
+    },
+    profileImage:{
+        type:String,  //cloudinary Url
+        required:true,
+    },
+    avatar:{
+        type:String,
+    },
 },{
     timestamps:true
 })
@@ -53,13 +60,11 @@ userModelSchema.methods.generateRefreshToken=function(){
 
     return jwt.sign({
         _id:this._id,
-        userName:this.userName,
-        password:this.password,
-        email:this.email,
+        
     },
-    process.env.ACCESS_TOKEN_SECRET,
+    process.env.REFRESH_TOKEN_SECRET,
     {
-        expiresIn:'1d'
+        expiresIn:'10d'
     }
   
   )
@@ -68,10 +73,13 @@ userModelSchema.methods.generateAccessToken=function(){
 
     return jwt.sign({
         _id:this._id,
+        userName:this.userName,
+        password:this.password,
+        email:this.email,
     },
-    process.env.REFRESH_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_SECRET,
     {
-        expiresIn:'10d'
+        expiresIn:'1d'
     }
   
   )

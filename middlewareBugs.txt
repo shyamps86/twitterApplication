@@ -1,5 +1,5 @@
 
-router.route("/register").post(upload.fields([{ name: "image", maxCount: 1 },{ name: "profile", maxCount: 1 },]), async(req,res)=>{
+---> router.route("/register").post(upload.fields([{ name: "image", maxCount: 1 },{ name: "profile", maxCount: 1 },]), async(req,res)=>{
     console.log(req.body);
     console.log(req.files)   
     
@@ -12,3 +12,12 @@ router.route("/register").post(upload.fields([{ name: "image", maxCount: 1 },{ n
     }
     res.send("File uploaded successfully!");
 });
+
+
+
+
+
+
+--> error middleware directly invokes application middleware wheneve app recieves the request
+     // application level middleware 
+     // error-handling middleware
