@@ -85,7 +85,6 @@ export const userLogin = asyncHandler(async (req, res) => {
   if (!isExistedUser) {
     throw new ApiError("202", "user not registered");
   }
-  console.log("is going inside");
   const isPasswordMatched = isExistedUser.isPasswordCorrect(password);
 
   if (!isPasswordMatched) {
