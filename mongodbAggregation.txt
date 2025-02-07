@@ -1,0 +1,278 @@
+[
+  
+  {
+    $lookup: {
+      from: "usercartmodels",
+      localField:"_id",
+      foreignField:"user",
+      as :"cart"
+    }
+  },
+  {
+    $lookup: {
+      from: "userfavschemas",
+      localField:"_id",
+      foreignField:"user",
+      as :"fav"
+    }
+  },
+  {
+    $addFields: {
+      cart:{
+        $arrayElemAt:["$cart.items",0]
+      },
+      fav:{
+       $first:"$fav.items"
+      }
+    }
+  },
+  // {
+  //   $unset: 'cart'
+  // }
+
+]
+
+
+
+another example ::
+
+[
+  {
+		$lookup: {
+		  from: "usermodels",
+		  localField: "user",
+		  foreignField: "_id",
+		  as: "userCartDetails"
+		}
+  },
+  {
+ 		$addFields: {
+ 		  userCartDetailInfo:{
+				$size:"$userCartDetails"
+      }
+ 		}
+  },
+  {
+   $sort: {
+     createdAt: -1
+   }
+  },
+  {
+    $limit: 1
+  },
+  {
+   $unwind: "$items",
+  },
+  {
+    $lookup: {
+      from:"userfavschemas",
+      localField:"user",
+      foreignField:"user",
+      as:"userFavDetails"
+    }
+  },
+
+  {
+    $project: {
+       _id:1,
+       userFavDetails:1,
+       userCartDetails:1
+    }
+  },
+
+
+  {
+    $group: {
+      _id: {
+        id:"$_id",
+        userFavData:"$userFavDetails",
+        userDetails:"$userCartDetails"
+      }
+    },
+    
+  },
+
+  {
+
+    $addFields: {
+      userCartDetails: {
+        $first:"$userCartDetails"
+      }, 
+      userFavDetails:{
+       $first:"$userFavDetails"
+      }
+    }
+
+     or
+
+
+    $addFields: {
+      userCartDetails: {
+					$arrayElemAt:["$userCartDetails",0]
+      },
+      userFavDetails:{
+        $arrayElemAt:["$userFavDetails",0]
+      }
+    }
+
+
+    
+    
+    
+  }
+
+  
+  
+]
+
+
+example-3
+
+
+[
+  {
+    $lookup: {
+      from: "usermodels",
+      localField: "user",
+      foreignField: "_id",
+      as: "user"
+    }
+  },
+  {
+    $lookup: {
+      from: "usercartmodels",
+      localField: "user._id",
+      foreignField: "user",
+      as: "Favs"
+    }
+  },
+  {
+    $addFields: {
+      user: {
+        $arrayElemAt: ["$user", 0]
+      },
+      Favs: {
+        $first: "$Favs"
+      }
+    }
+  },
+
+  {
+    $project: {
+      items: 1,
+      Favs: 1,
+      user: 1
+    }
+  },
+
+  {
+    $unwind: "$Favs.items"
+  },
+
+  {
+    $group: {
+      _id: "$_id",
+      wishlist: {
+        $push: "$Favs.items"
+      }
+    }
+  }
+]
+
+
+example-4 
+
+
+   [
+
+   {
+     $match: {
+       "items.0.id":2     // match is something that call go to inner of objects or arrays to match fields
+     }
+   }
+
+  
+]
+
+
+
+example-5
+
+//let-->must be declared in object 
+
+pipeline--> it for filtering the from field of collection 
+
+        in order to match the field of current and foreign collection, should declare with "$$"
+
+[
+  {
+
+    $lookup: {
+      from: "userfavschemas",
+      // localField:"_id",
+      // foreignField:"user",
+      let: {
+        userId: "$_id"    
+      },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $eq: ["$user", "$$userId"]
+            }
+          }
+        },
+        {
+          $project: {
+            items: 1
+          }
+        },
+        {
+          $unset: "_id"
+        }
+      ],
+      as: "fav"
+    }
+  },
+  {
+    $addFields: {
+      fav: {$first:"$fav.items"}
+    }
+  }
+]
+
+example-6
+
+{
+      $sort:{
+        createdAt:-1     //here the field must me createdAt or id of document
+      }
+  }
+
+example-7
+
+
+unionwith --> will add another collection documents in additional to current collection documents
+
+[
+  {
+    $project: {
+      email: 1,
+      _id: 0
+    }
+  },
+
+  {
+    $unionWith: {
+      coll: "usercartmodels",
+      pipeline: [
+        {
+          $project: {
+            items: 1,
+            _id:0,
+          }
+        }
+      ]
+    }
+  }
+]
