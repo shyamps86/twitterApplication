@@ -116,6 +116,7 @@ export const userLogin = asyncHandler(async (req, res) => {
 });
 
 export const userLogout = asyncHandler(async (req, res) => {
+  // console.log("req.user-->", req.user._id);
   const user = await User.findByIdAndUpdate(
     req.user._id,
     {
@@ -127,7 +128,7 @@ export const userLogout = asyncHandler(async (req, res) => {
       new: true,
     }
   );
-
+   
   const options = { httpOnly: true, secure: true };
 
   return res

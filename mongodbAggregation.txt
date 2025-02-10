@@ -258,7 +258,7 @@ unionwith --> will add another collection documents in additional to current col
   {
     $project: {
       email: 1,
-      _id: 0
+      _id: 0   //will ignore the id value here
     }
   },
 

@@ -1,4 +1,4 @@
-import { isValidObjectId } from "mongoose";
+import mongoose, { get, isValidObjectId } from "mongoose";
 import { Tweet } from "../models/tweetModel.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
@@ -8,7 +8,7 @@ const ObjectId = Types.ObjectId;
 
 export const createTweet = asyncHandler(async (req, res) => {
   const { tweet } = req.body;
-  // console.log("req user->",req.user)
+  console.log("req user->",req.user)
 
   await Tweet.create({
     tweet,
@@ -23,8 +23,15 @@ export const createTweet = asyncHandler(async (req, res) => {
 });
 
 export const getAllTweets = asyncHandler(async (req, res) => {
-  const getTweets = await Tweet.find().select("-owner");
 
+  console.log("req.user._id-->", req.user._id)
+
+  const getTweets = await Tweet.find({owner:req.user._id}).select(" -__v");  //resulted in as array of tweets  
+  console.log("getTweets-->", getTweets)
+
+  if(Array.isArray(getTweets) && getTweets.length===0){
+    return res.status(200).json(new ApiResponse(200,"no tweets"))
+  }
   //   console.log("getTweets", getTweets)
   return res
     .status(200)
@@ -34,13 +41,13 @@ export const getAllTweets = asyncHandler(async (req, res) => {
 export const deleteTweet = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
 
-  const tweet = await Tweet.findById(tweetId);
+  const tweet = await Tweet.findByIdAndDelete(tweetId);
   console.log("tweet-->", tweet);
 
   if (!tweet) {
     throw new ApiError(404, "Tweet not found");
   }
-  await tweet.deleteOne();
+  // await tweet.deleteOne();   // this way also to deleteTweet works
   return res.status(200).json(new ApiResponse(200, "deleted"));
 });
 

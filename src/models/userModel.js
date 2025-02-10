@@ -63,9 +63,9 @@ userModelSchema.methods.generateRefreshToken=function(){
         
     },
     process.env.REFRESH_TOKEN_SECRET,
-    {
-        expiresIn:'10d'
-    }
+    // {
+    //     expiresIn:'10d'
+    // }
   
   )
 }
@@ -78,9 +78,9 @@ userModelSchema.methods.generateAccessToken=function(){
         email:this.email,
     },
     process.env.ACCESS_TOKEN_SECRET,
-    {
-        expiresIn:'1d'
-    }
+    // {
+    //     expiresIn:'1d'
+    // }
   
   )
 }
