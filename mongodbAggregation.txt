@@ -276,3 +276,72 @@ unionwith --> will add another collection documents in additional to current col
     }
   }
 ]
+
+
+
+example-6
+
+$sum operator can be used in multiple ways 
+
+  1. in group
+  2. to sum all the array values
+
+{
+     $addFields: {
+      totalCartPrice: {
+        $sum: {
+          $map: {
+            input: "$userCart",
+            as: "item",
+            in: {
+              $multiply: [
+                "$$item.price",
+                "$$item.quantity"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
+  example-7  operaters
+
+  {
+    $or:[{name:"ramesh"},{name:"shyam"}]
+  }
+
+  {
+    $all:["shyam","ramesh"]  // value should be included with values in array
+  }
+
+  {
+    $in:["shyam","ramesh"]  //an value may include with any one values from this array
+  }
+
+
+example of $gt and $lt 
+
+price:{
+  $gt:10,$lt:20
+}
+
+examle of $gt and $lt using in $project
+
+  priceCategory: {
+    $cond: {
+      if: { $gt: ["$price", 1000] },
+      then: "Expensive",
+      else: {
+        $cond: {
+          if: { $lt: ["$price", 500] },
+          then: "Cheap",
+          else: "Moderate"
+        }
+      }
+    }
+}
+
+

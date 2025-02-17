@@ -140,7 +140,7 @@ export const getAllUserLikes=asyncHandler(async(req,res)=>{
 
     // ])
 
-    if(Array.isArray(likesToTweets) && likesToTweets.length===0){
+    if(Array.isArray(likesToTweets) && likesToTweets.length===0 || !likesToTweets){
         return res.status(404).json(new ApiResponse(404,"No likes found"))
     }
     return res.status(200).json(new ApiResponse(200,likesToTweets,"your likes to tweets fetched",))
@@ -168,3 +168,5 @@ export const deleteLikeHandler=asyncHandler(async(req,res)=>{
 
     return res.status(200).json(new ApiResponse(200,"like deleted"))
 })
+
+
