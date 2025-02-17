@@ -33,5 +33,25 @@ next("route")--->skip middleware handler is used to skip the current route handl
             console.log('Server is running on port 3000');
             });
 
-    
-    
+
+    emitters //
+
+
+    emitter is core module basically to handle asychronous operations in nodejs.
+    since nodejs is asychronous and event-driven architecture. These(events) are objects used
+    which allows to handling and propagation of events inside of nodejs application
+
+    ex:
+
+    import EventEmitter from 'node:events';
+
+        const eventEmitter=new EventEmitter({captureRejections:true});
+
+
+        eventEmitter.on("foo",async(par)=>{
+            return Promise.reject("error occured")
+        })
+        eventEmitter.on("error",(err)=>{
+            console.log("error-->",err)
+        })  
+            
