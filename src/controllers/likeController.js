@@ -14,7 +14,9 @@ export const createTweet=asyncHandler(async(req,res)=>{
 
     const likedBy=req.user._id
 
-
+    if(!likedBy){
+        return res.status(404).json(new ApiResponse(404,"user not found/invalid user"))
+    }
     // console.log("likedBy-->",likedBy)
 
     const tweet=await Tweet.findById(tweetId);
@@ -27,7 +29,7 @@ export const createTweet=asyncHandler(async(req,res)=>{
     
     const existingLike=await Like.findOne({tweet:tweetId,likedBy:likedBy})
 
-    console.log("existingLike-->",existingLike);
+    // console.log("existingLike-->",existingLike);
     
     if(existingLike){
         return res.status(404).json(new ApiResponse(404,"already liked this tweet"))
@@ -39,10 +41,9 @@ export const createTweet=asyncHandler(async(req,res)=>{
 })
 
 
-
 export const getAllUserLikes=asyncHandler(async(req,res)=>{
     const likedBy=req.user._id;  
-    console.log("likedBy-->",likedBy);
+    // console.log("likedBy-->",likedBy);
     // const likesToTweets=await Like.find({likedBy:likedBy}).populate("tweet").select("-_id -__v -likedBy -createdAt -updatedAt -tweet._id -tweet.owner ");
 
 

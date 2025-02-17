@@ -8,6 +8,9 @@ const likeRouter=Router();
 likeRouter.use(verifyJwt)
 likeRouter.route("/:tweetId").post(createTweet).delete(deleteLikeHandler)
 likeRouter.route("/").get(getAllUserLikes)
+ // also can give 
+//   likeRouter.get("/",verifyJwt,getAllUserLikes)
+ 
 
 
 

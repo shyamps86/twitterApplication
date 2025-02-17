@@ -1,15 +1,15 @@
 import { Schema } from "mongoose";
 
- const subscriptionSchema = new Schema({
+ const LikedSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         ref: "User",
     },
-    subscribedTo: {
+    likedTo: {
         type: Schema.Types.ObjectId,
         ref: "User",
     },
     });
 
 
-    export const Subscription = model("Subscription", subscriptionSchema);
+    export const Liked = model("Liked", LikedSchema);
