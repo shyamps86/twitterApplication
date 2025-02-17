@@ -24,10 +24,10 @@ export const createTweet = asyncHandler(async (req, res) => {
 
 export const getAllTweets = asyncHandler(async (req, res) => {
 
-  console.log("req.user._id-->", req.user._id)
+  // console.log("req.user._id-->", req.user._id)
 
   const getTweets = await Tweet.find({owner:req.user._id}).select(" -__v");  //resulted in as array of tweets  
-  console.log("getTweets-->", getTweets)
+  // console.log("getTweets-->", getTweets)
 
   if(Array.isArray(getTweets) && getTweets.length===0){
     return res.status(200).json(new ApiResponse(200,"no tweets"))
@@ -42,7 +42,7 @@ export const deleteTweet = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
 
   const tweet = await Tweet.findByIdAndDelete(tweetId);
-  console.log("tweet-->", tweet);
+  // console.log("tweet-->", tweet);
 
   if (!tweet) {
     throw new ApiError(404, "Tweet not found");
@@ -69,3 +69,19 @@ export const modifyTweet = asyncHandler(async (req, res) => {
 //   console.log("existedTweet-->", existedTweet);
   return res.status(200).json(new ApiResponse(200, "Requested tweet changed"));
 });
+
+
+
+export const allTweets=asyncHandler(async(req,res)=>{
+      const tweets=await Tweet.find();
+     console.log("tweets-->",tweets.length);
+
+      if(Array.isArray(tweets) && tweets.length===0){
+        return res.status(404).json(new ApiResponse(404,"No tweets found"))
+      }
+      
+      // const likesCount=await Tweet.find({Tweet})
+      
+
+      return res.status(200).json(new ApiResponse(200,tweets,"success"))
+})
