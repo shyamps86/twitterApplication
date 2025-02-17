@@ -1,0 +1,61 @@
+query.findByIdAndUpdate(filter,update,{new :true})
+
+   filter--> {id:mongoose_id}
+query.findOneAndUpdate(filter,update,{new :true})
+     {
+        name:"shyam",
+        age:20
+      }
+    1.findOneAndUpdate will update the document with filter({name:"shyam"}) and to set update value
+     as {age:24};
+     resulted doc will be 
+      {
+        name:"shyam",
+        age:24
+      }
+    2.always give {new :true} or {returnOriginal:true};
+
+query.findById(id)  just pass an id like this "123244332xfsadf32";
+
+query.findOneAndDelete({name:"shyam"}) || query.findByIdAndDelete({name:"shyam"}) 
+   
+    or query.remove(); but it's older to use
+
+
+query.find({ age: { $gt: 50 } })
+
+    /**
+     * It fetches all documents where the age field is greater than 50.
+     */
+
+
+query.updateOne(
+    { title: 'Casino Royale' }, 
+    { 
+        $push: {  // 2. Use $push to add something to the 'fans' array
+        fans: {  // Target the 'fans' array field
+            $each: ['fanId4', 'fanId5']  // 3. Add multiple fans at once
+        }
+        }
+    })
+
+
+     always follow with operator like $set or $push unlike in aggreagation
+      in aggreagation pipeline we use like this 
+      {
+            $group: {
+            _id: "$_id",
+            wishlist: {
+                $push: "$Favs.items"
+            }
+            }
+      }
+
+
+userModel.find({ "$or": [{ "role": "PM" }, { "role": "TL" }] });
+/*
+ * The $or operator performs a logical OR operation on an array of two or more expressions.
+ * $or selects the documents that satisfy at least one of the expressions.
+ * Retrieves users whose role is either "PM" (Project Manager) or "TL" (Team Lead).
+ */
+ 
