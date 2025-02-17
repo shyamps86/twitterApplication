@@ -1,0 +1,27 @@
+here class can i have only context that this keyword referes but when call middlewares or callbacks will have another context
+
+
+so we need to bind this to particular instance " this.isPhoneNo=this.isPhoneNo.bind(this);"
+
+
+class validator{
+    constructor(phoneNo){
+        this.phoneNo=phoneNo;
+        this.isPhoneNo=this.isPhoneNo.bind(this);   
+    }
+    isEmail(email){
+        return isEmail(email);
+   }
+   isPhoneNo(req,res,next){
+   try {
+    console.log("entered",this.phoneNo)   //will not print if do not bind to this instance
+    const checkPhoneNo=userPhoneNoSchema.validate({phoneNo:this.phoneNo});
+    checkError(checkPhoneNo);
+    next();
+   } catch (error) {
+     res
+     .status(400).json({error:error.message})}
+    return true;
+   }
+
+}

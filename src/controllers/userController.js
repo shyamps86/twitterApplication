@@ -85,7 +85,6 @@ export const userLogin = asyncHandler(async (req, res) => {
   if (!isExistedUser) {
     throw new ApiError("202", "user not registered");
   }
-  console.log("is going inside");
   const isPasswordMatched = isExistedUser.isPasswordCorrect(password);
 
   if (!isPasswordMatched) {
@@ -117,6 +116,7 @@ export const userLogin = asyncHandler(async (req, res) => {
 });
 
 export const userLogout = asyncHandler(async (req, res) => {
+  // console.log("req.user-->", req.user._id);
   const user = await User.findByIdAndUpdate(
     req.user._id,
     {
@@ -128,7 +128,7 @@ export const userLogout = asyncHandler(async (req, res) => {
       new: true,
     }
   );
-
+   
   const options = { httpOnly: true, secure: true };
 
   return res

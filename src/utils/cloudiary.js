@@ -21,4 +21,3 @@ export const uploadToCloudinary = async (filePath) => {
   }
 };
 
-
