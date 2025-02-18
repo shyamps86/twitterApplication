@@ -39,6 +39,10 @@ const userModelSchema=new Schema({
 userModelSchema.plugin(applyPlugin,{name:"pspk"}) 
 //parameters to applyPlugin function are the other parameter {name:pspk}
 
+// import mongooseSequence from 'mongoose-sequence'
+
+// IncrementSchema.plugin(mongooseSequence(mongoose),{inc_field:"count",step:2,start_seq:100});
+
 
 userModelSchema.pre("save",async function(next){
     if(!this.isModified("password")){

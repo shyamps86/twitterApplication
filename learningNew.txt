@@ -1,4 +1,5 @@
-next("route")--->skip middleware handler is used to skip the current route handler and pass
+-->
+  next("route")--->skip middleware handler is used to skip the current route handler and pass
   to other same METHOD(get,post,put,delete) route.
 
   ex:
@@ -34,7 +35,7 @@ next("route")--->skip middleware handler is used to skip the current route handl
             });
 
 
-    emitters //
+   --> emitters //
 
 
     emitter is core module basically to handle asychronous operations in nodejs.
