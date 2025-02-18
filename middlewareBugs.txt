@@ -21,3 +21,13 @@
 --> error middleware directly invokes application middleware wheneve app recieves the request
      // application level middleware 
      // error-handling middleware
+
+
+-->  to auto increment the values of document in mongoose using plugin
+import mongooseSequence from 'mongoose-sequence'
+
+IncrementSchema.plugin(mongooseSequence(mongoose),{inc_field:"count",step:2,start_seq:100});
+
+
+
+--->always app should be imported to index.js or server file 

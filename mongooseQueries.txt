@@ -58,4 +58,39 @@ userModel.find({ "$or": [{ "role": "PM" }, { "role": "TL" }] });
  * $or selects the documents that satisfy at least one of the expressions.
  * Retrieves users whose role is either "PM" (Project Manager) or "TL" (Team Lead).
  */
+
+
+ -->drop colletion usig two ways
+
+   if(true){
+        await Increment.collection.drop((err)=>{  // or await 
+            if(err){
+                console.log("error in droping-->",err);
+            }
+            else{
+                console.log("drop increment collection is success")
+            }
+        })
+
+               or
+        const db=mongoose.connection.db  //best way or trendy way to drop collection
+        try {
+                await mongoose.connection.db.collection("increments").drop();
+                console.log("drop increment collection is success");
+            } catch (err) {
+                console.log("error in dropping-->", err);
+            }
+
+     await Increment.find().then((data)=>console.log("data-->",data))   // here it will create collection evne though collection doesn't exist or dropped
+     .catch((err)=>console.log("error is -->",err))
  
+
+
+-->  to list out all collections 
+
+   await mongoose.connection.db.listCollections().toArray()
+      gives list of collection present in DB
+
+--> to set all documents in to an array mongodb nodejs driver provided toArray()
+   *it is not inbuilt javascript method*
+   collectionName.find().toArray();
