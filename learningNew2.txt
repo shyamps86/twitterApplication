@@ -25,3 +25,76 @@ class validator{
    }
 
 }
+
+
+
+exmaple2:
+
+
+// // 'use strict'
+// console.log(this)  //{} or global object
+
+// function fn(){
+//     console.log(this) //{window object}
+// }
+
+
+// const fn2=()=>{
+//     console.log(this)   //{}
+// }
+// const obj={
+//     name:"shyam",
+//     full:()=>{
+//         return this   
+//         //undefined as it showing global object or {}
+//     }
+// }
+// const obj2={
+//     name:"shyam",
+//     full:function(){
+//         return this  
+//         //showing { name: 'shyam', full: [Function: full] }
+//         // as it showing to obj2
+//     }
+// }
+
+
+
+class shyam{
+    constructor(){
+        this.method2=this.method2.bind(this)
+    }
+    method1=()=>{
+        console.log(this)  
+        //it works correctly as it lexically giving 
+        // scope to class 
+        // it's store on instance
+        return "method1";
+    }
+    method2(){
+        console.log(this) 
+        //here it giving scope to class but when you passed this method as callback it looses the scope in order to make this bind we need give
+         //this.method2=this.method2.bind(this) in constructor
+        //  or make arrow function
+        // it not store on instance it's store on prototype
+        return "method2";
+    }
+}
+
+
+const fn=(name,callback)=>{
+    return callback+name;
+}
+
+console.log( new shyam()); 
+//shyam { method1: [Function: method1] }
+console.log(fn("shyam",new shyam().method1()))
+// shyam { method1: [Function: method1] }
+// method1shyam
+console.log(fn("shyam",new shyam().method2()))
+// shyam {
+//   method1: [Function: method1],
+//   method2: [Function: bound method2]
+// }
+// method2shyam
+
